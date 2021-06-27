@@ -13,6 +13,7 @@ const oldPointStructure = {
 };
 
 let vowels = ['A', 'E', 'I', 'O', 'U'];
+let consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
 
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
@@ -39,7 +40,13 @@ function initialPrompt() {
 };
 
 let simpleScore = function(word) {
-  return word.length;
+  let score = word.length;
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === ' ') {
+      score -= 1;
+    }
+  }
+  return score;
 }
 
 
@@ -50,8 +57,10 @@ let vowelBonusScore = function(word) {
   for (let i = 0; i < word.length; i++) {
     if (vowels.includes(word[i])) {
     score += 3;
-  } else {
+  } else if (consonants.includes(word[i])) {
     score += 1;
+  } else {
+    score += 0;
   }
   }
   return score;
