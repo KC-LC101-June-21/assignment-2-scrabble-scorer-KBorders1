@@ -36,7 +36,14 @@ function oldScrabbleScorer(word) {
 // don't change the names or your program won't work as expected. //
 
 function initialPrompt() {
-   return input.question(`Let's play some scrabble!\n\nEnter a word to score: `);
+  let answer = input.question(`Let's play some Scrabble!\n\nEnter a word to score: `);
+
+  while (/[^A-Za-z\s]/.test(answer) === true || answer === "") {
+    answer = input.question(`\nNo numbers or special characters please.\n\nEnter a word to score: `);
+}
+
+  return answer;
+
 };
 
 let simpleScore = function(word) {
@@ -97,10 +104,13 @@ let scrabble = {
 const scoringAlgorithms = [simple, vowel, scrabble];
 
 function scorerPrompt() {
-  let choice = -1;
   
-  while (choice < 0 || choice > 2 || isNaN(choice)) {
-     choice = input.question(`Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `);
+  let prompt = `\nWhich scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `;
+  
+  let choice = input.question(prompt);
+  
+  while (choice === "" || choice < 0 || choice > 2 || isNaN(choice)) {
+     choice = input.question(prompt);
   }
   return scoringAlgorithms[choice];
 }
@@ -126,7 +136,7 @@ newPointStructure[' '] = 0;
 function runProgram() {
    let wordToScore = initialPrompt();
    let selection = scorerPrompt();
-   console.log(`Score for '${wordToScore}': ${selection.scoringFunction(wordToScore)}`);
+   console.log(`\nScore for '${wordToScore}': ${selection.scoringFunction(wordToScore)}`);
    
   
 }
